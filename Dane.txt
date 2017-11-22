@@ -1,0 +1,4 @@
+4.0 Wysokosc Siatki
+4.0 Dlugosc Siatki
+5 Liczba wezlow pionowo
+5 Liczba wezlow poziomo
