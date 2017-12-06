@@ -13,23 +13,116 @@ public class Global_data {
     private int nodes_b;
     private int nodes_h;
 
-    Global_data()
-    {
+    Global_data() {
         try {
-            Scanner scanner=new Scanner(new File("Dane.txt"));
+            Scanner scanner = new Scanner(new File("Dane.txt"));
 
-            h=scanner.nextDouble();
+            h = scanner.nextDouble();
             scanner.nextLine();
-            b=scanner.nextDouble();
+            b = scanner.nextDouble();
             scanner.nextLine();
-            nodes_h=scanner.nextInt();
+            nodes_h = scanner.nextInt();
             scanner.nextLine();
-            nodes_b=scanner.nextInt();
+            nodes_b = scanner.nextInt();
         } catch (FileNotFoundException e) {
             System.out.println("Can not open file");
             e.printStackTrace();
         }
     }
+
+    //wszystkie funkcje krztaltu sa zdefiniowane w logalnym ukladzie wspolrzednych
+    public double f1(double e, double n)    //1 funkcja krztaltu
+    {
+        return 0.25 * (1. - e) * (1. - n);
+    }
+
+    public double f2(double e, double n)    //2 funkcja krztaltu
+    {
+        return 0.25 * (1. + e) * (1. - n);
+    }
+
+    public double f3(double e, double n)    //3 funkcja krztaltu
+    {
+        return 0.25 * (1. + e) * (1. + n);
+    }
+
+    public double f4(double e, double n)    //4 funkcja krztaltu
+    {
+        return 0.25 * (1. - e) * (1. + n);
+    }
+
+    public double f1de(double n)    //Pochodna po e z pierwszej funkcji krztltu
+    {
+        return -0.25 *(1-n);
+    }
+
+    public double f2de(double n)    //Pochodna po e z drugiej funkcji krztltu
+    {
+        return 0.25 *(1-n);
+    }
+
+    public double f3de(double n)    //Pochodna po e z trzeciej funkcji krztltu
+    {
+        return 0.25 *(1+n);
+    }
+
+    public double f4de(double n)    //Pochodna po e z czwartej funkcji krztltu
+    {
+        return -0.25 *(1+n);
+    }
+
+    public double f1dn(double e)    //Pochodna po n z pierwszej funkcji krztltu
+    {
+        return -0.25 *(1-e);
+    }
+
+    public double f2dn(double e)    //Pochodna po n z drugiej funkcji krztltu
+    {
+        return -0.25 *(1+e);
+    }
+
+    public double f3dn(double e)    //Pochodna po n z trzeciej funkcji krztltu
+    {
+        return 0.25 *(1+e);
+    }
+
+    public double f4dn(double e)    //Pochodna po n z czwartej funkcji krztltu
+    {
+        return 0.25 *(1-e);
+    }
+
+    public double derrivative_e(int number,double n)
+    {
+        switch (number) {
+            case 0:
+                return f1de(n);
+            case 1:
+                return f2de(n);
+            case 2:
+                return f3de(n);
+            case 3:
+                return f4de(n);
+            default:
+                return 9999;
+        }
+    }
+
+    public double derrivative_n(int number,double e)
+    {
+        switch (number) {
+            case 0:
+                return f1dn(e);
+            case 1:
+                return f2dn(e);
+            case 2:
+                return f3dn(e);
+            case 3:
+                return f4dn(e);
+            default:
+                return 8888;
+        }
+    }
+
 
     public double getH() {
         return h;

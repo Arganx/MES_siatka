@@ -36,9 +36,9 @@ public class Grid {
         int k=0;
         for(int i=0;k<(nodes_h-1)*(nodes_b-1);i++)
         {
-            System.out.println(i);
             if(i%(nodes_h)!=nodes_h-1||i==0) {
-                elements[k] = new Element(nodes[i], nodes[i + 1], nodes[i + nodes_b], nodes[i + nodes_b + 1]);
+                //elements[k] = new Element(nodes[i], nodes[i + 1], nodes[i + nodes_b], nodes[i + nodes_b + 1]);        //stary sposob
+                elements[k] = new Element(nodes[i], nodes[i + nodes_b], nodes[i + nodes_b + 1], nodes[i + 1]);
                 k++;
             }
         }
@@ -52,5 +52,15 @@ public class Grid {
     public void show_element(int element_number)
     {
         elements[element_number].show();
+    }
+
+    public Element getElement(int elementNumber)
+    {
+        if(elementNumber>=elements.length)
+        {
+            System.out.println("Brak takiego elementu");
+            return null;
+        }
+        return elements[elementNumber];
     }
 }

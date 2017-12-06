@@ -7,6 +7,8 @@ public class Node {
     private double x;
     private double y;
     private double t;
+    private double local_e;
+    private double local_n;
     private boolean status;
 
     public Node(double x, double y, double t, boolean status) {
@@ -26,6 +28,22 @@ public class Node {
 
     public double getT() {
         return t;
+    }
+
+    public double getLocal_e() {
+        return local_e;
+    }
+
+    public void setLocal_e(double local_e) {
+        this.local_e = local_e;
+    }
+
+    public double getLocal_n() {
+        return local_n;
+    }
+
+    public void setLocal_n(double local_n) {
+        this.local_n = local_n;
     }
 
     public boolean isStatus() {
