@@ -8,10 +8,11 @@ import java.util.Scanner;
  * Created by qwerty on 08-Nov-17.
  */
 public class Global_data {
-    private double h;
-    private double b;
+    private double h;   //dlugosc siatki
+    private double b;      //wysokosc siatki
     private int nodes_b;
     private int nodes_h;
+    private double[] points; //punkty calkowania
 
     Global_data() {
         try {
@@ -24,13 +25,16 @@ public class Global_data {
             nodes_h = scanner.nextInt();
             scanner.nextLine();
             nodes_b = scanner.nextInt();
+            points = new double[2];
+            points[0]=0.57735;
+            points[1]=-0.57735;
         } catch (FileNotFoundException e) {
             System.out.println("Can not open file");
             e.printStackTrace();
         }
     }
 
-    //wszystkie funkcje krztaltu sa zdefiniowane w logalnym ukladzie wspolrzednych
+    //wszystkie funkcje krztaltu sa zdefiniowane w lokalnym ukladzie wspolrzednych
     public double f1(double e, double n)    //1 funkcja krztaltu
     {
         return 0.25 * (1. - e) * (1. - n);
@@ -138,5 +142,9 @@ public class Global_data {
 
     public int getNodes_h() {
         return nodes_h;
+    }
+
+    public double[] getPoints() {
+        return points;
     }
 }
