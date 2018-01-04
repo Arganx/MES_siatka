@@ -5,7 +5,7 @@ package net;
  */
 public class Element {
     private Node[] id;
-    private double pow[];
+    private Surface[] surface;
 
     private double[][] jakobian;
 
@@ -24,7 +24,12 @@ public class Element {
         id[3]=d;
         id[3].setLocal_e(0);
         id[3].setLocal_n(1);
-        pow=new double[4];
+        surface = new Surface[4];
+        for(int i=0;i<3;i++)
+        {
+            surface[i]=new Surface(id[i],id[i+1]);
+        }
+        surface[3]=new Surface(id[3],id[0]);
 
     }
 
@@ -42,4 +47,7 @@ public class Element {
 
     }
 
+    public Surface[] getSurface() {
+        return surface;
+    }
 }

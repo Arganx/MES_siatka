@@ -10,12 +10,14 @@ public class Node {
     private double local_e;
     private double local_n;
     private boolean status;
+    private int node_number;
 
-    public Node(double x, double y, double t, boolean status) {
+    public Node(double x, double y, double t, boolean status,int node_number) {
         this.x = x;
         this.y = y;
         this.t = t;
         this.status = status;
+        this.node_number=node_number;
     }
 
     public double getX() {
@@ -53,5 +55,13 @@ public class Node {
     public void show()
     {
         System.out.println("Wartosci wezla: wynosza:\nX: " + x +"\nY: " + y);
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public int getNode_number() {
+        return node_number;
     }
 }

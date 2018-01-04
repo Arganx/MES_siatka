@@ -7,7 +7,7 @@ import java.text.MessageFormat;
  */
 public class Operations {
 
-    public static double determinant (double[][] matrix) {
+    public double determinant (double[][] matrix) {
         double temporary[][];
         double result = 0;
 
@@ -39,7 +39,7 @@ public class Operations {
         return (result);
     }
 
-    public static double[][] invertMatrix (double[][] matrix) {
+    public double[][] invertMatrix (double[][] matrix) {
         double[][] auxiliaryMatrix, invertedMatrix;
         int[] index;
 
@@ -78,7 +78,7 @@ public class Operations {
         return (invertedMatrix);
     }
 
-    public static void transformToUpperTriangle (double[][] matrix, int[] index) {
+    public void transformToUpperTriangle (double[][] matrix, int[] index) {
         double[] c;
         double c0, c1, pi0, pi1, pj;
         int itmp, k;
@@ -133,7 +133,7 @@ public class Operations {
         }
     }
 
-    public static void printMatrix (int[][] matrix, int id) {
+    public void printMatrix (int[][] matrix, int id) {
         double doubleMatrix[][] = new double[matrix.length][matrix[0].length];
 
         for (int i = 0; i < matrix.length; i++) {
@@ -145,7 +145,7 @@ public class Operations {
         printMatrix (doubleMatrix, id);
     }
 
-    public static void printMatrix (double[][] matrix, int id) {
+    public void printMatrix (double[][] matrix, int id) {
         int cols, rows;
 
         rows = matrix.length;
@@ -191,7 +191,7 @@ public class Operations {
         System.out.println ();
     }
 
-    public static double[][] multiplyMatrices (double[][] x, double[][] y) {
+    public double[][] multiplyMatrices (double[][] x, double[][] y) {
         double[][] result;
         int xColumns, xRows, yColumns, yRows;
 
@@ -218,7 +218,7 @@ public class Operations {
         return (result);
     }
 
-    public static double[] multiplyVector(double[][] a, double[] x) {
+    public double[] multiplyVector(double[][] a, double[] x) {
         int m = a.length;
         int n = a[0].length;
         if (x.length != n) throw new RuntimeException("Illegal matrix dimensions.");
@@ -229,7 +229,7 @@ public class Operations {
         return y;
     }
 
-    public static double[][] transpose(double[][] a) {
+    public double[][] transpose(double[][] a) {
         int m = a.length;
         int n = a[0].length;
         double[][] b = new double[n][m];
@@ -239,7 +239,7 @@ public class Operations {
         return b;
     }
 
-    public static double[][] multiplyVectorVectorTrans(double[] vector, double[] trans) {
+    public double[][] multiplyVectorVectorTrans(double[] vector, double[] trans) {
         int m = vector.length;
         int n = trans.length;
         if (m != n) throw new RuntimeException("Illegal matrix dimensions.");
@@ -253,5 +253,75 @@ public class Operations {
             }
         }
         return result;
+    }
+
+    public double[][] matrixAdd(double[][] A, double[][] B)
+    {
+        // Check if matrices have contents
+        if ((A.length < 0) || (A[0].length < 0)) return B;
+        if ((B.length < 0) || (B[0].length < 0)) return A;
+
+        // create new matrix to store added values in
+        double[][] C = new double[A.length][A[0].length];
+
+        for (int i = 0; i < A.length; i++)
+        {
+            for (int j = 0; j < A[i].length; j++)
+            {
+                C[i][j] = A[i][j] + B[i][j];
+            }
+        }
+        return C;
+    }
+
+    public double[][] multiplyMatrixScalar(double[][] matrix, double scalar)
+    {
+        double[][] result = new double[matrix.length][matrix.length];
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0;j<matrix.length;j++)
+            {
+                result[i][j]=matrix[i][j]*scalar;
+            }
+        }
+        return result;
+    }
+
+    public double[][] divideMatrixScalar(double[][] matrix, double scalar) {
+        double[][] result = new double[matrix.length][matrix.length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                result[i][j] = matrix[i][j] / scalar;
+            }
+        }
+        return result;
+    }
+
+    public double[] multiplyVectorScalar(double[] vector, double scalar)
+    {
+        double[] result = new double[vector.length];
+        for(int i=0;i<vector.length;i++)
+        {
+            result[i]=vector[i]*scalar;
+        }
+        return result;
+    }
+
+    public void printVector(double[] vector)
+    {
+        for(int i=0;i<vector.length;i++)
+        {
+            System.out.println(vector[i]);
+        }
+    }
+
+    public double[] addVectors(double[] vector1, double[] vector2)
+    {
+        double[] vector = new double[vector1.length];
+        for(int i=0;i<vector.length;i++)
+        {
+            vector[i]=vector1[i]+vector2[i];
+        }
+        return vector;
     }
 }

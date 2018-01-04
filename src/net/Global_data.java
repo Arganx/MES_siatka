@@ -13,6 +13,14 @@ public class Global_data {
     private int nodes_b;
     private int nodes_h;
     private double[] points; //punkty calkowania
+    private double alfa;
+    private double initial_temp;
+    private double full_time;
+    private double step_time;
+    private double density;         //p
+    private double specific_heat;   //c
+    private double conductivity;    //k
+    private double ambient;
 
     Global_data() {
         try {
@@ -25,6 +33,23 @@ public class Global_data {
             nodes_h = scanner.nextInt();
             scanner.nextLine();
             nodes_b = scanner.nextInt();
+            scanner.nextLine();
+            alfa=scanner.nextDouble();
+            scanner.nextLine();
+            initial_temp=scanner.nextDouble();
+            scanner.nextLine();
+            full_time=scanner.nextDouble();
+            scanner.nextLine();
+            step_time=scanner.nextDouble();
+            scanner.nextLine();
+            density=scanner.nextDouble();
+            scanner.nextLine();
+            specific_heat=scanner.nextDouble();
+            scanner.nextLine();
+            conductivity=scanner.nextDouble();
+            scanner.nextLine();
+            ambient=scanner.nextDouble();
+            scanner.nextLine();
             points = new double[2];
             points[0]=0.57735;
             points[1]=-0.57735;
@@ -146,5 +171,37 @@ public class Global_data {
 
     public double[] getPoints() {
         return points;
+    }
+
+    public double getAlfa() {
+        return alfa;
+    }
+
+    public double getInitial_temp() {
+        return initial_temp;
+    }
+
+    public double getFull_time() {
+        return full_time;
+    }
+
+    public double getStep_time() {
+        return step_time;
+    }
+
+    public double getDensity() {
+        return density;
+    }
+
+    public double getSpecific_heat() {
+        return specific_heat;
+    }
+
+    public double getConductivity() {
+        return conductivity;
+    }
+
+    public double getAmbient() {
+        return ambient;
     }
 }
