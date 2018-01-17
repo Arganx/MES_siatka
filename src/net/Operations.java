@@ -324,4 +324,27 @@ public class Operations {
         }
         return vector;
     }
+
+    public double[] findMinMaxInVector(double[] vector)
+    {
+        double min=vector[0];
+        double max = vector[0];
+
+        for(int i=0;i<vector.length;i++)
+        {
+            if(vector[i]<min)
+            {
+                min=vector[i];
+            }
+            if(vector[i]>max)
+            {
+                max=vector[i];
+            }
+        }
+
+        double[] result = new double[2];
+        result[0]=min;
+        result[1]=max;
+        return result;
+    }
 }

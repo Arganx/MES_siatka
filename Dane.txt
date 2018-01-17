@@ -10,3 +10,17 @@
 700.0 cieplo wlasciwe
 25.0 strumien ciepla
 1200 temperatura otoczenia
+
+
+0.1 Wysokosc Siatki
+0.1 Dlugosc Siatki
+31 Liczba wezlow pionowo
+31 Liczba wezlow poziomo
+300.0 alfa [W/m^2*K]
+100.0 temperatura poczatkowa
+100.0 okres czasowy symulacji [s]
+1.0 czas pojedynczego kroku
+7800.0 gestosc
+700.0 cieplo wlasciwe
+25.0 strumien ciepla
+1200 temperatura otoczenia

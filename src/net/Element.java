@@ -7,6 +7,7 @@ public class Element {
     private Node[] id;
     private Surface[] surface;
 
+
     private double[][] jakobian;
 
     Element(Node a, Node b, Node c, Node d)
@@ -27,9 +28,9 @@ public class Element {
         surface = new Surface[4];
         for(int i=0;i<3;i++)
         {
-            surface[i]=new Surface(id[i],id[i+1]);
+            surface[i]=new Surface(id[i],id[i+1],i);
         }
-        surface[3]=new Surface(id[3],id[0]);
+        surface[3]=new Surface(id[3],id[0],3);
 
     }
 

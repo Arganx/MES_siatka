@@ -17,9 +17,7 @@ public class Grid {
 
     Grid(Global_data global_data)
     {
-        global_H=new double[16][16];
-        global_C=new double[16][16];
-        global_P=new double[16];
+
         double b=global_data.getB();
         double h= global_data.getH();
         int nodes_b = global_data.getNodes_b();
@@ -53,7 +51,9 @@ public class Grid {
                 k++;
             }
         }
-
+        global_H=new double[nodes.length][nodes.length];
+        global_C=new double[nodes.length][nodes.length];
+        global_P=new double[nodes.length];
         warunekBrzegowy_na_bokach();
     }
 
@@ -442,6 +442,62 @@ public class Grid {
     public double[] doP(int elementNumber, Global_data data)
     {
             Element element = elements[elementNumber];
+            double[] N = new double[4];
+            double[] P = new double[4];
+        Operations operations = new Operations();
+
+        for(int j=0;j<2;j++)//po 2 punktach na scianie
+        {
+            for (int i = 0; i < 4; i++) {  //po krawedziach elementu
+                if (element.getSurface()[i].isEdge()) {
+                    double l = 0;
+                    if (element.getSurface()[i].getNode1().getX() == element.getSurface()[i].getNode2().getX() && element.getSurface()[i].getWall()==1) {  //oba na tej samej osi y
+                        N[0] = data.f1(1, data.getPoints()[j]);
+                        N[1] = data.f2(1, data.getPoints()[j]);
+                        N[2] = data.f3(1, data.getPoints()[j]);
+                        N[3] = data.f4(1, data.getPoints()[j]);
+                        l = Math.abs(element.getSurface()[i].getNode1().getY() - element.getSurface()[i].getNode2().getY());
+                    } else if (element.getSurface()[i].getNode1().getX() == element.getSurface()[i].getNode2().getX() && element.getSurface()[i].getNode1().getX() == 0 && element.getSurface()[i].getWall()==3) //lewa krawedz
+                    {
+                        N[0] = data.f1(-1, data.getPoints()[j]);
+                        N[1] = data.f2(-1, data.getPoints()[j]);
+                        N[2] = data.f3(-1, data.getPoints()[j]);
+                        N[3] = data.f4(-1, data.getPoints()[j]);
+                        l = Math.abs(element.getSurface()[i].getNode1().getY() - element.getSurface()[i].getNode2().getY());
+                    } else if (element.getSurface()[i].getNode1().getY() == element.getSurface()[i].getNode2().getY() && element.getSurface()[i].getNode1().getY() != 0 && element.getSurface()[i].getWall()==2) //gora
+                    {
+                        N[0] = data.f1(data.getPoints()[j], 1);
+                        N[1] = data.f2(data.getPoints()[j], 1);
+                        N[2] = data.f3(data.getPoints()[j], 1);
+                        N[3] = data.f4(data.getPoints()[j], 1);
+                        l = Math.abs(element.getSurface()[i].getNode1().getX() - element.getSurface()[i].getNode2().getX());
+                    } else if (element.getSurface()[i].getNode1().getY() == element.getSurface()[i].getNode2().getY() && element.getSurface()[i].getNode1().getY() == 0 && element.getSurface()[i].getWall()==0) //dol
+                    {
+                        N[0] = data.f1(data.getPoints()[j], -1);
+                        N[1] = data.f2(data.getPoints()[j], -1);
+                        N[2] = data.f3(data.getPoints()[j], -1);
+                        N[3] = data.f4(data.getPoints()[j], -1);
+                        l = Math.abs(element.getSurface()[i].getNode1().getX() - element.getSurface()[i].getNode2().getX());
+                    } else {
+                        System.out.println("Nie udalo sie policzyć wektora P");
+                    }
+
+                    N=operations.multiplyVectorScalar(N,data.getAlfa()*data.getAmbient());
+                    N=operations.multiplyVectorScalar(N,l/2);
+                    for(int z=0;z<4;z++)
+                    {
+                        P[z]+=N[z];
+                    }
+
+                }
+            }
+        }
+        mergeWithGlobalP(P,element);
+
+
+
+
+/*
             double l =0;
             if(element.getId()[0].getX()==element.getId()[1].getX()) {
                 l = Math.abs(element.getId()[0].getY()-element.getId()[1].getY());
@@ -451,16 +507,13 @@ public class Grid {
                 l = Math.abs(element.getId()[0].getX()-element.getId()[1].getX());
             }
             double[] P=new double[4];
-            for(int i=0;i<4;i++)
-            {
-                P[i]=0;
+            for(int i=0;i<4;i++) {
+                P[i] = 0;
             }
-            Operations operations = new Operations();
             double[] N = new double[4];
+            if()
             for(int i=0;i<2;i++)    //Po 4 punktach calkowania
             {
-                for(int j=0;j<2;j++)
-                {
                     N[0]=data.f1(data.getPoints()[i],data.getPoints()[j]);
                     N[1]=data.f2(data.getPoints()[i],data.getPoints()[j]);
                     N[2]=data.f3(data.getPoints()[i],data.getPoints()[j]);
@@ -471,10 +524,9 @@ public class Grid {
                     {
                         P[z]+=N[z];
                     }
-                }
 
             }
-            mergeWithGlobalP(P,element);
+            mergeWithGlobalP(P,element);*/
             return P;
     }
 
@@ -484,5 +536,65 @@ public class Grid {
 
     public double[] getGlobal_P() {
         return global_P;
+    }
+
+    public void clean_globals()
+    {
+        for(int i=0;i<global_H.length;i++)
+        {
+            for(int j=0;j<global_H[0].length;j++)
+            {
+                global_H[i][j]=0;
+                global_C[i][j]=0;
+            }
+            global_P[i]=0;
+        }
+    }
+
+    public void simulate(Grid grid, Global_data data) {
+        Operations operations = new Operations();
+
+        double[] t0 = new double[nodes.length];
+        for (int i = 0; i < nodes.length; i++) {
+            t0[i] = data.getInitial_temp();
+        }
+
+        double[] t1;
+        int iterator=0;
+        for (int k = 0; k < data.getFull_time(); k += data.getStep_time()) {
+            {
+                System.out.println("Przejscie "+iterator);
+                for (int i = 0; i < grid.getElements().length; i++) {
+                    grid.doH(i, data);
+                    grid.doC(i, data);
+                    grid.doP(i, data);
+                }
+
+                //operations.printMatrix(grid.getGlobal_H(), 0);
+                //operations.printMatrix(grid.getGlobal_C(), 0);
+
+                double[][] H = operations.divideMatrixScalar(grid.getGlobal_C(), data.getStep_time());//Najpierw dzielenie przez skalar
+                H = operations.matrixAdd(H, grid.getGlobal_H());
+                //operations.printMatrix(H, 0);
+
+                //operations.printVector(grid.getGlobal_P());
+
+
+                double[] P = operations.addVectors(grid.getGlobal_P(), operations.multiplyVector(operations.divideMatrixScalar(grid.getGlobal_C(), data.getStep_time()), t0));
+                System.out.println();
+                //operations.printVector(P);
+                double[][] a = operations.invertMatrix(H);
+                t1 = operations.multiplyVector(a, P);
+                System.out.println("Temperatury:");
+                //operations.printVector(t1);
+                double[] result = operations.findMinMaxInVector(t1);
+                System.out.println("Min temp: " + result[0]);
+                System.out.println("Max temp: " + result[1]);
+                t0=t1;
+            }
+            clean_globals();
+
+            iterator++;
+        }
     }
 }
